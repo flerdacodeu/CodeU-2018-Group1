@@ -1,29 +1,21 @@
 #include <iostream>
-#include <algorithm>
-#include <vector>
-#include <iomanip>
-#include <string>
-#include <unordered_set>
-#include <unordered_map>
 
-using namespace std;
-
-struct list {
-    list *next = nullptr;
+struct node {
+    node *next = nullptr;
     int x;
 };
 
-list *kth_elem(list *root, int k) {
+node *kth_elem(node *root, int k) {
     if (root == nullptr) return nullptr;
-    list *l = root, *r = root->next;
-    while (k && r != nullptr) {
-        r = r->next;
+    node *slow = root, *fast = root->next;
+    while (k && fast != nullptr) {
+        fast = fast->next;
         k--;
     }
     if (k) return nullptr;
-    while (r != nullptr) {
-        r = r->next;
-        l = l->next;
+    while (fast != nullptr) {
+        fast = fast->next;
+        slow = slow->next;
     }
-    return l;
+    return slow;
 }
