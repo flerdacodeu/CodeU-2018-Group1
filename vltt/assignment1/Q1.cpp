@@ -6,45 +6,52 @@
 #include <unordered_set>
 #include <unordered_map>
 
-using namespace std;
+//is_case_insensitive == 0 -  sensitive, is_case_insensitive == 1 - insensitive
 
-//ch == 0 -  sensitive, ch == 1 - insensitive
-
-void to_sent(string &s, vector<string> &v, bool ch) {
-    string cur;
-    for (auto it : s) {
-        if (isspace(it)) {
+void split_by_word(std::string &s, std::unordered_map<std::string, int> &m, bool is_case_insensitive) {
+    std::string cur;
+    for (int i = 0; i <= s.length(); i++) {
+        if (i == s.length() || isspace(s[i])) {
             if (!cur.empty()) {
                 sort(cur.begin(), cur.end());
-                v.push_back(cur);
+                m[cur]++;
                 cur = "";
             }
+            if (i == s.length()) return;
         } 
-        else if (ch) cur += tolower(it);
-        else cur += it;
-    }
-    if (!cur.empty()) {
-        sort(cur.begin(), cur.end());
-        v.push_back(cur);
+        else if (is_case_insensitive) cur += tolower(s[i]);
+        else cur += s[i];
     }
 }
 
-bool f(string &a, string &b, bool ch) {
-    vector<string> v_a, v_b;
-    to_sent(a, v_a, ch);
-    to_sent(b, v_b, ch);
-    if (v_a.size() != v_b.size()) return false;
-    sort(v_a.begin(), v_a.end());
-    sort(v_b.begin(), v_b.end());
-    return v_a == v_b;
+bool is_anagram(std::string &a, std::string &b, bool ch) {
+    std::unordered_map<std::string, int> m_b;
+    std::string cur;
+    split_by_word(b, m_b, is_case_insensitive);
+    for (int i = 0; i <= a.length(); i++) {
+        if (i == a.length() || isspace(a[i])) {
+            if (!cur.empty()) {
+                sort(cur.begin(), cur.end());
+                if (m_b.find(cur) != m_b.end()) {
+                    if (--m_b[cur] == 0) m_b.erase(cur);
+                    cur = "";
+                }
+                else return false;
+            }
+            if (i == a.length()) break;
+        }
+        else if (is_case_insensitive) cur += tolower(a[i]);
+        else cur += a[i];
+    }
+    return m_b.empty();
 }
 
 int main() {
-    string a, b;
-    getline(cin, a);
-    getline(cin, b);
+    std::string a, b;
+    getline(std::cin, a);
+    getline(srd::cin, b);
     bool ch;
-    cin >> ch;
-    cout << f(a, b, ch) << endl;
+    std::cin >> ch;
+    std::cout << f(a, b, ch) << std::endl;
     return 0;
 }
