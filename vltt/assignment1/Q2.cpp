@@ -2,17 +2,17 @@
 
 struct node {
     node *next = nullptr;
-    int x;
+    int value;
 };
 
 node *kth_elem(node *root, int k) {
-    if (root == nullptr) return nullptr;
+    if (root == nullptr || k < 0) return nullptr;
     node *slow = root, *fast = root->next;
-    while (k && fast != nullptr) {
+    while (k > 0 && fast != nullptr) {
         fast = fast->next;
         k--;
     }
-    if (k) return nullptr;
+    if (k > 0) return nullptr;
     while (fast != nullptr) {
         fast = fast->next;
         slow = slow->next;
