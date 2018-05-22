@@ -40,7 +40,7 @@ size_t LinkedList<T>::size()
 }
 
 template <typename T>
-Node<T>* LinkedList<T>::kth(size_t k) {
+Node<T>* LinkedList<T>::kth_from_last(size_t k) {
     size_t size = this->size();
 
     if (k + 1 > size)

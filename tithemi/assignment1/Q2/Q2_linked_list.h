@@ -19,7 +19,7 @@ public:
 public:
     size_t size();
     void addElementToEnd(const T& value);
-    Node<T> *kth(size_t k);
+    Node<T> *kth_from_last(size_t k);
 
 protected:
     Node<T>* _preHead;
