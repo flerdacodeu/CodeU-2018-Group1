@@ -25,3 +25,22 @@ some_struct find_kth_element(some_struct first_element, int k) {
 	}
 	return kth;
 }
+int main() {
+	//test
+	some_struct a;
+	a.num = 21;
+	some_struct b;
+	a.s = &b;
+	b.num = 20;
+	some_struct c;
+	b.s = &c;
+	c.num = 19;
+	some_struct d;
+	c.s = &d;
+	d.num = 18;
+	some_struct e;
+	d.s = &e;
+	e.num = 17;
+	some_struct kth = find_kth_element(a, 6);
+	cout << kth.num;
+}
