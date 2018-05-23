@@ -5,7 +5,7 @@ struct node {
     int value;
 };
 
-node *kth_elem(node *root, int k) {
+node *kth_elem(const node *root, int k) {
     if (root == nullptr || k < 0) return nullptr;
     node *slow = root, *fast = root->next;
     while (k > 0 && fast != nullptr) {
