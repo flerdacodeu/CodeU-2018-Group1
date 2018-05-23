@@ -9,7 +9,7 @@
 //is_case_sensitive == 1 -  sensitive, is_case_sensitive == 0 - insensitive
 
 
-void split_by_word(std::string &sentence, std::unordered_map<std::string, int> &word_counts, bool is_case_sensitive) {
+void split_by_word(const std::string &sentence, std::unordered_map<std::string, int> &word_counts, bool is_case_sensitive) {
     std::string cur;
     for (int i = 0; i <= sentence.length(); i++) {
         if (i == sentence.length() || !isalpha(sentence[i]) && !isdigit(sentence[i])) {
@@ -25,7 +25,7 @@ void split_by_word(std::string &sentence, std::unordered_map<std::string, int> &
     }
 }
 
-bool is_anagram(std::string &sentence_a, std::string &sentence_b, bool is_case_sensitive) {
+bool is_anagram(const std::string &sentence_a, const std::string &sentence_b, bool is_case_sensitive) {
     std::unordered_map<std::string, int> word_counts_b;
     std::string cur;
     split_by_word(sentence_b, word_counts_b, is_case_sensitive);
