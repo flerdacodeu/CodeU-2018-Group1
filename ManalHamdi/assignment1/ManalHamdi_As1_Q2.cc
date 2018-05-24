@@ -41,7 +41,7 @@ class list {
 int main (void) {
 	list l;
 	for (int i = 0; i < 4; i++)
-		l.createnode(i);
+		l.appendToList(i);
 	int k; std::cin >> k;
 	if (k >= l.listSize || k < 0)
 		std::cout << "Not possible" << std::endl;
