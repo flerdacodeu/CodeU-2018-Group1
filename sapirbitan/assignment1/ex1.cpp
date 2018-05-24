@@ -3,8 +3,8 @@
 using namespace std;
 
 // case sensitive
-bool isAnagram(const string& word1,const string& word2) {
-	if (word1.size() != word2.size())//checks if the words are the same lenght
+int isAnagram(const string& word1,const string& word2) {
+	if ((word1.size() != word2.size())||k<0)//checks if the words are the same lenght
 		return 0;
 	int word1_size = word1.size();
 	int word2_size = word1.size();
@@ -24,12 +24,9 @@ bool isAnagram(const string& word1,const string& word2) {
 			}
 		}
 	}
-	if (changed_word2.empty())
-		return temp_word1.empty();
+	return changed_word2.empty() && temp_word1.empty();
 	//if the temp_word1 string is empty and word2 is empty - it means we have "used" all the words 
 	//which means the words are anagrams
-	else
-		return 0;
 }
 
 int main() {
