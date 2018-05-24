@@ -3,50 +3,50 @@
 using namespace std;
 
 // case sensitive
-int isAnagram(const string word1, string word2) {
-	if (word1.size() != word2.size())//checks if the words could be anagrams by the size of them
+bool isAnagram(const string& word1,const string& word2) {
+	if (word1.size() != word2.size())//checks if the words are the same lenght
 		return 0;
-	int size1 = word1.size();
-	int size2 = size1;
-	string temp = word1;
-	// checks if the letters"cover" each other
-	for (int j = 0;j < size2;j++) {
-		for (int k = 0;k < size1;k++) {
-			if (temp.at(k) == word2.at(j)) {
-				temp.erase(k, 1);
-				word2.erase(j,1);
-				k = size1;
-				size1--;
+	int word1_size = word1.size();
+	int word2_size = word1.size();
+	string temp_word1 = word1;
+	string changed_word2 = word2;
+
+	for (int i = 0;i < word2_size;i++) {//runs over all the letters of the second word.
+		for (int k = 0;k < word1_size;k++) {//runs over the letters of the first word
+			//if there is a fit, erase the letters that 'fit' from the temporary words
+			if (temp_word1.at(k) == word2.at(i)) {
+				temp_word1.erase(k, 1);
+				changed_word2.erase(0, 1);
+				//we don't need to run over the rest of the words - since we've found a match,
+				//plus - we don't want to delete any necessary letters(like test 8)
+				k = word1_size;
+				word1_size--;
 			}
 		}
 	}
-	if (word2.empty()) {
-		return temp.empty();
-		//if the temp string is empty and word2 is empty - it means we have "used" all the words 
-		//which means the words are anagrams
-	}
+	if (changed_word2.empty())
+		return temp_word1.empty();
+	//if the temp_word1 string is empty and word2 is empty - it means we have "used" all the words 
+	//which means the words are anagrams
+	else
+		return 0;
 }
+
 int main() {
 	//test1
-	bool test1 = isAnagram("Silent", "listen");
-	cout << test1;
+	cout << isAnagram("Silent", "listen") << endl;
 	//test2
-	bool test2 = isAnagram("what", "thaw");
-	cout << test2;
+	cout << isAnagram("what", "thaw") << endl;
 	//test3
-	bool test3 = isAnagram("car", "arc");
-	cout << test3;
+	cout << isAnagram("car", "arc") << endl;
 	//test4
-	bool test4 = isAnagram(" ", "");
-	cout << test4;
+	cout << isAnagram(" ", "") << endl;
 	//test5
-	bool test5 = isAnagram("dusty", "studySS");
-	cout << test5;
-	//test5
-	bool test6 = isAnagram("BanaNa", "BaNana");
-	cout << test6;
+	cout << isAnagram("dusty", "studySS") << endl;
+	//test6
+	cout << isAnagram("BanaNa", "BaNana") << endl;
 	//test7
-	bool test7 = isAnagram("", "");
-	cout << test7;
-	cin >> test1;
+	cout << isAnagram("", "") << endl;
+	//test8
+	cout << isAnagram("barn", "narbn") << endl;
 }
