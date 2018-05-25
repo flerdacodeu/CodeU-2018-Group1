@@ -1,52 +1,90 @@
 #include "CaseSensitive.cpp"
 #include <gtest/gtest.h>
 
+std::string initial, anagram;
+
 TEST(CaseSensitiveTest, EmptyStrings) {
-    ASSERT_EQ(true, verifyAnagram(false, "", ""));
+    initial = "";
+    anagram = "";
+    ASSERT_EQ(true, verifyAnagram(initial, anagram, false));
 }
 
 TEST(CaseSensitiveTest, EmptyInitialString) {
-    ASSERT_EQ(false, verifyAnagram(false, "", "hello"));
+    initial = "";
+    anagram = "hello";
+    ASSERT_EQ(false, verifyAnagram(initial, anagram, false));
 }
 
 TEST(CaseSensitiveTest, EmptyAnagramString) {
-    ASSERT_EQ(false, verifyAnagram(false, "hello", ""));
+    initial = "hello";
+    anagram = "";
+    ASSERT_EQ(false, verifyAnagram(initial, anagram, false));
 }
 
 TEST(CaseSensitiveTest, CaseInsensitiveAnagramStrings1) {
-    ASSERT_EQ(true, verifyAnagram(false, "dusty", "study"));
+    initial = "dusty";
+    anagram = "study";
+    ASSERT_EQ(true, verifyAnagram(initial, anagram, false));
 }
 
 TEST(CaseSensitiveTest, CaseInsensitiveAnagramStrings2) {
-    ASSERT_EQ(true, verifyAnagram(false, "cat", "act"));
+    initial = "cat";
+    anagram = "act";
+    ASSERT_EQ(true, verifyAnagram(initial, anagram, false));
 }
 
 TEST(CaseSensitiveTest, CaseInsensitiveAnagramStrings3) {
-    ASSERT_EQ(true, verifyAnagram(false, "night", "thing"));
+    initial = "night";
+    anagram = "thing";
+    ASSERT_EQ(true, verifyAnagram(initial, anagram, false));
 }
 
 TEST(CaseSensitiveTest, CaseInsensitiveNonAnagramStrings1) {
-    ASSERT_EQ(false, verifyAnagram(false, "night", "hing"));
+    initial = "night";
+    anagram = "hing";
+    ASSERT_EQ(false, verifyAnagram(initial, anagram, false));
 }
 
 TEST(CaseSensitiveTest, CaseInsensitiveNonAnagramStrings2) {
-    ASSERT_EQ(false, verifyAnagram(false, "cat", "acc"));
+    initial = "cat";
+    anagram = "acc";
+    ASSERT_EQ(false, verifyAnagram(initial, anagram, false));
 }
 
 TEST(CaseSensitiveTest, CaseSensitiveAnagramStrings1) {
-    ASSERT_EQ(true, verifyAnagram(true, "Night", "thiNg"));
+    initial = "Night";
+    anagram = "thiNg";
+    ASSERT_EQ(true, verifyAnagram(initial, anagram, true));
 }
 
 TEST(CaseSensitiveTest, CaseSensitiveAnagramStrings2) {
-    ASSERT_EQ(true, verifyAnagram(true, "Cat", "aCt"));
+    initial = "Cat";
+    anagram = "aCt";
+    ASSERT_EQ(true, verifyAnagram(initial, anagram, true));
 }
 
 TEST(CaseSensitiveTest, CaseSensitiveNonAnagramStrings1) {
-    ASSERT_EQ(false, verifyAnagram(true, "DuSty", "Study"));
+    initial = "DuSty";
+    anagram = "Study";
+    ASSERT_EQ(false, verifyAnagram(initial, anagram, true));
 }
 
 TEST(CaseSensitiveTest, CaseSensitiveNonAnagramStrings2) {
-    ASSERT_EQ(false, verifyAnagram(true, "CAT", "acc"));
+    initial = "CAT";
+    anagram = "acc";
+    ASSERT_EQ(false, verifyAnagram(initial, anagram, true));
+}
+
+TEST(CaseSensitiveTest, CaseSensitiveNonAnagramStrings3) {
+    initial = "aa";
+    anagram = "a";
+    ASSERT_EQ(false, verifyAnagram(initial, anagram, true));
+}
+
+TEST(CaseSensitiveTest, CaseSensitiveNonAnagramStrings4) {
+    initial = "aa";
+    anagram = "a";
+    ASSERT_EQ(false, verifyAnagram(initial, anagram, false));
 }
 
 int main(int argc, char **argv) {
