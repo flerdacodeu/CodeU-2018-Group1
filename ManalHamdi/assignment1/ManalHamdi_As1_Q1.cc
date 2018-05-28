@@ -42,7 +42,7 @@ bool IsSentenceAnagram (std::string sent1, std::string sent2, bool is_case_sensi
 	std::vector <std::string> sent1_words = splitByWords(sent1);
 	std::vector <std::string> sent2_words = splitByWords(sent2);
 	
-	if (sent1_words.size() != sent1_words.size())
+	if (sent1_words.size() != sent2_words.size())
 		return false;
 	
 	std::sort(sent1_words.begin(), sent1_words.end());
