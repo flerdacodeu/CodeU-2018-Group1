@@ -17,13 +17,12 @@ LinkedList<T>::~LinkedList()
 }
 
 template <typename T>
-void LinkedList<T>::addElementToEnd(const T &value)
+void LinkedList<T>::Append(const T &value)
 {
     Node<T>* current = _preHead;
     while (current->next != nullptr)
         current = current->next;
-    Node<T>* end = new Node<T>();
-    end->value = value;
+    Node<T>* end = new Node<T>(value);
     current->next = end;
 }
 
@@ -40,16 +39,17 @@ size_t LinkedList<T>::size()
 }
 
 template <typename T>
-Node<T>* LinkedList<T>::kth_from_last(size_t k) {
+Node<T>* LinkedList<T>::KthFromLast(size_t k) {
     size_t size = this->size();
 
     if (k + 1 > size)
-        throw std::out_of_range("k should be less than LinkedList size");
+        throw std::out_of_range("k = " + std::to_string(k) + " and LinkedList.size() = " + std::to_string(size) +
+                                ", k should be less than LinkedList size");
 
     size_t offset = size - k - 1;
 
     Node<T>* current = _preHead;
-    while (offset) {
+    while (offset > 0) {
         offset -= 1;
         current = current->next;
     }

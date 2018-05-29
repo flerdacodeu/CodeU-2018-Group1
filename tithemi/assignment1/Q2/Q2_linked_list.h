@@ -3,6 +3,7 @@
 template <typename T>
 struct Node {
     Node() : next(nullptr) { }
+    Node(T value) : value(value), next(nullptr) { }
 
     T value;
     Node* next;
@@ -18,9 +19,10 @@ public:
 
 public:
     size_t size();
-    void addElementToEnd(const T& value);
-    Node<T> *kth_from_last(size_t k);
+    void Append(const T &value);
+    Node<T> *KthFromLast(size_t k);
 
 protected:
+    // This linked list implementation stores the preHead node because it helps to work with empty list
     Node<T>* _preHead;
 };
