@@ -23,6 +23,6 @@ public:
     Node<T> *KthFromLast(size_t k);
 
 protected:
-    // This linked list implementation stores the preHead node because it helps to work with empty list
+    // This linked list implementation stores the preHead node because it helps with working with empty list
     Node<T>* _preHead;
 };
