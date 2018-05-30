@@ -28,6 +28,7 @@ int up(node *first, node*second, const int pow) {
 }
 
 node *lsa(node *first, node *second) {
+    if(first == nullptr || second == nullptr) return nullptr;
     int pow = 1;
     int distance;
     while (1){
