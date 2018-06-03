@@ -98,5 +98,5 @@ int main() {
 	//test6
 	ancestor = find_common_anc(root, left_left_right, left_right);
 	cout << ancestor->key<<endl;
-	cin >> ancestor->key;
 	return 0;
+}
