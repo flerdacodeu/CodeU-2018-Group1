@@ -5,20 +5,19 @@
 #include <string.h>
 #include <climits>
 
-#define ALFA_LEN 26
-
-using namespace std;
-
+namespace {
+    const int ALFA_LEN = 26;
+}
 
 // Returns true if there is a path from source 's' to sink 't' in
 // residual graph. Also fills parent[] to store the path */
-bool bfs(vector<vector<int> > &rGraph, int s, int t, vector<int> &parent) {
+bool bfs(std::vector<std::vector<int> > &rGraph, int s, int t, std::vector<int> &parent) {
     int graphSize = rGraph.size();
-    vector<bool> visited(graphSize, false);
+    std::vector<bool> visited(graphSize, false);
  
     // Create a queue, enqueue source vertex and mark source vertex
     // as visited
-    queue<int> q;
+    std::queue<int> q;
     q.push(s);
     visited[s] = true;
     parent[s] = -1;
@@ -43,14 +42,14 @@ bool bfs(vector<vector<int> > &rGraph, int s, int t, vector<int> &parent) {
 }
  
 // Returns the maximum flow from s to t in the given graph
-int fordFulkerson(vector<vector<int> > &graph, int s, int t)
+int fordFulkerson(std::vector<std::vector<int> > &graph, int s, int t)
 {
     int u, v, graphSize = graph.size();
  
     // Create a residual graph and fill the residual graph with
     // given capacities in the original graph as residual capacities
     // in residual graph
-    vector<vector<int> > rGraph(graphSize, vector<int>(graphSize));
+    std::vector<std::vector<int> > rGraph(graphSize, std::vector<int>(graphSize));
     
     // Residual graph where rGraph[i][j] indicates 
     // residual capacity of edge from i to j (if there
@@ -61,7 +60,7 @@ int fordFulkerson(vector<vector<int> > &graph, int s, int t)
              rGraph[u][v] = graph[u][v];
 
     // This array is filled by BFS and to store path
-    vector<int> parent(graphSize);
+    std::vector<int> parent(graphSize);
     // There is no flow initially
     int maxFlow = 0;
  
@@ -73,7 +72,7 @@ int fordFulkerson(vector<vector<int> > &graph, int s, int t)
         int pathFlow = INT_MAX;
         for (v = t; v != s; v = parent[v]) {
             u = parent[v];
-            pathFlow = min(pathFlow, rGraph[u][v]);
+            pathFlow = std::min(pathFlow, rGraph[u][v]);
         }
  
         // Update residual capacities of the edges and reverse edges
@@ -93,7 +92,7 @@ int fordFulkerson(vector<vector<int> > &graph, int s, int t)
 }
 
 // Checks if two given words are anagrams (case sensitive)
-bool areAnagrams(string initial, string anagram) {
+bool areAnagrams(std::string initial, std::string anagram) {
     // If the words have different lengths, they can't be
     // anagrams
     if (anagram.size() != initial.size()) {
@@ -103,7 +102,7 @@ bool areAnagrams(string initial, string anagram) {
     // Vector of frequencies for each letter in the English
     // alphabet, lowercase (first ALFA_LEN elements) and
     // uppercase (last ALFA_LEN elements)
-    vector<int> frequencies(ALFA_LEN  * 2);
+    std::vector<int> frequencies(ALFA_LEN  * 2);
 
     // Calculate frequencies for letters in the initial word
     for (char c : initial) {
@@ -135,29 +134,29 @@ bool areAnagrams(string initial, string anagram) {
 }
 
 
-bool verifyAnagram(string initial, string anagram) {
+bool verifyAnagram(std::string initial, std::string anagram) {
     // The words in each sentence
-    vector<string> initialWords;
-    vector<string> anagramWords;
+    std::vector<std::string> initialWords;
+    std::vector<std::string> anagramWords;
 
     // Tokens for separating words
-    string delim = " ,.!?\t\n\v\f\r";
+    std::string delim = " ,.!?\t\n\v\f\r";
 
     // Tokenize sentences into words using strtok
     char *initialStr = (char *)initial.c_str();
     char *token = strtok(initialStr, delim.c_str());
 
-    while (token != NULL) {
-        initialWords.push_back(string(token));
-        token = strtok(NULL, delim.c_str());
+    while (token != nullptr) {
+        initialWords.push_back(std::string(token));
+        token = strtok(nullptr, delim.c_str());
     }
 
     char *anagramStr = (char *)anagram.c_str();
     token = strtok(anagramStr, delim.c_str());
 
-    while (token != NULL) {
-        anagramWords.push_back(string(token));
-        token = strtok(NULL, delim.c_str());
+    while (token != nullptr) {
+        anagramWords.push_back(std::string(token));
+        token = strtok(nullptr, delim.c_str());
     }
 
     // If the sentences have different numbers of words,
@@ -174,7 +173,7 @@ bool verifyAnagram(string initial, string anagram) {
     // The next wordCnt nodes correspond to the words in the first sentence
     // The next wordCnt nodes correspond to the words in the second sentence
     // The last node represents the destionation
-    vector<vector<int> > graph(wordCnt * 2 + 2, vector<int>(wordCnt * 2 + 2));
+    std::vector<std::vector<int> > graph(wordCnt * 2 + 2, std::vector<int>(wordCnt * 2 + 2));
 
     // Set an outward edge from the source to every first sentence node
     // Set an outward esge from every second sentence node to the destination
