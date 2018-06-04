@@ -25,8 +25,9 @@ node* find_common_anc(const node& tree_root,const node& first_node, const node& 
 	node temp_first = first_node;
 	node temp_second = second_node;
 	node temp_tree_root = tree_root;
+	int flag=1;//checks if we've found the common ancestor
 	//I wan't this loop to keep going until the ancestor is found - so while(1) ;)
-	while (1) {
+	while (flag) {
 		if ((first_node.key == tree_root.key) || (second_node.key == tree_root.key)){
 			cout << "one of the nodes is the root - which doesn't have an ancestor" << endl;
 			//edge case - if someone sends the root- it doesn't have an ancestor - because he is the ancestor
@@ -43,6 +44,7 @@ node* find_common_anc(const node& tree_root,const node& first_node, const node& 
 			temp_second = *temp_second.ancestor;
 		//else - it is the one we were looking for, return it.
 		else {
+			flag=0;
 			return temp_first.ancestor;
 		}
 	}
