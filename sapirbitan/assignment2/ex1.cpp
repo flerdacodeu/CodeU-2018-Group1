@@ -122,4 +122,5 @@ int main() {
 	left_left.right_child = &left_left_right;
 	left_left.left_child = &left_left_left;
 	testing(root);
+	return 0;
 }
