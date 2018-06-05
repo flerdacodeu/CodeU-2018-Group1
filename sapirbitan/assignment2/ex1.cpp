@@ -10,7 +10,7 @@ struct node {
   //(the root's ancestor will point to NULL)
 
 // this function finds the key which we want to print it's ancestors from
-//it goes over all of the tree and prints out 
+//it goes over all of the tree and returns the node we were looking for
 node* find_key(node& root, int& key) {
 	node* found_key = NULL;
 	if (&root == NULL) 
@@ -40,7 +40,7 @@ void print_anc(node& key){
 
 }
 void testing(node& root) {
-	//test1
+	//test1 - should print - 2 3 7
 	int num = 6;
 	node* key = find_key(root, num);
 	cout << "test 1: key = " <<num<< endl;
@@ -48,7 +48,7 @@ void testing(node& root) {
 		print_anc(*key);
 	else
 		cout << "the key does not exist in this tree";
-	//test2
+	//test2 - should print - 3 7
 	num = 5;
 	cout << "test 2: key = " << num << endl;
 	key = find_key(root, num);
@@ -56,7 +56,7 @@ void testing(node& root) {
 		print_anc(*key);
 	else
 		cout << "the key does not exist in this tree";
-	//test3
+	//test3 - should print - 4 7
 	num = 8;
 	cout << "test 3: key = " << num << endl;
 	key = find_key(root, num);
@@ -64,7 +64,7 @@ void testing(node& root) {
 		print_anc(*key);
 	else
 		cout << "the key does not exist in this tree";
-	//test4
+	//test4 - should print "root does not have ancestors"
 	num = 7;
 	cout << "test 4: key = " << num << endl;
 	key = find_key(root, num);
@@ -72,7 +72,7 @@ void testing(node& root) {
 		print_anc(*key);
 	else
 		cout << "the key does not exist in this tree";
-	//test5
+	//test5 - should print - 2 3 7
 	num = 1;
 	cout << "test 5: key = " << num << endl;
 	key = find_key(root, num);
@@ -80,7 +80,7 @@ void testing(node& root) {
 		print_anc(*key);
 	else
 		cout << "the key does not exist in this tree";
-	//test6
+	//test6 - should print - "the key does not exist in this tree"
 	num = 13;
 	cout << "test 6: key = " << num << endl;
 	key = find_key(root, num);
