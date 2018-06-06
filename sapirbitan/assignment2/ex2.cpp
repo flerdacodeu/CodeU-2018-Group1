@@ -3,11 +3,11 @@ using namespace std;
 
 struct node {
 	int key;
-	node* left_child = NULL;
-	node* right_child = NULL;
-	node* ancestor = NULL;
+	node* left_child = nullptr;
+	node* right_child = nullptr;
+	node* ancestor = nullptr;
 };//assuming every node contains pointers to it's children and ancestors
-  //(the root's ancestor will point to NULL)
+  //(the root's ancestor will point to nullptr)
 
 /****************************************************************************************
 This function accepts three nodes - the root of the tree, and the two nodes we want to find
@@ -25,9 +25,9 @@ node* find_common_anc(const node& tree_root,const node& first_node, const node& 
 	node temp_first = first_node;
 	node temp_second = second_node;
 	node temp_tree_root = tree_root;
-	int flag=1;//checks if we've found the common ancestor
+	bool not_found = 1;
 	//I wan't this loop to keep going until the ancestor is found - so while(1) ;)
-	while (flag) {
+	while (not_found) {
 		if ((first_node.key == tree_root.key) || (second_node.key == tree_root.key)){
 			cout << "one of the nodes is the root - which doesn't have an ancestor" << endl;
 			//edge case - if someone sends the root- it doesn't have an ancestor - because he is the ancestor
@@ -43,11 +43,10 @@ node* find_common_anc(const node& tree_root,const node& first_node, const node& 
 		else if (temp_first.ancestor->key != temp_second.ancestor->key)
 			temp_second = *temp_second.ancestor;
 		//else - it is the one we were looking for, return it.
-		else {
-			flag=0;
+		else 
 			return temp_first.ancestor;
-		}
 	}
+	return nullptr;
 }
 
 int main() {
@@ -82,6 +81,18 @@ int main() {
 	left.right_child = &left_right;
 	left_left.right_child = &left_left_right;
 	left_left.left_child = &left_left_left;
+
+	/*
+						7
+					/		\
+					3		 4
+				/		\		\
+				2		  5		 8
+			/		\
+			1		 6
+
+
+	*/
 	//test1
 	node* ancestor =find_common_anc(root, left_left_left, left_right);
 	cout << ancestor->key<<endl;
