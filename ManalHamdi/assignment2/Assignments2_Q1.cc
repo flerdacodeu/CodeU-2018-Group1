@@ -15,6 +15,9 @@ struct Node {
 class Tree {
 public:
 	Node* root;
+	Tree(int data) {
+              root = CreateNode(data);
+         }
 	~Tree(){
            delete root;
         }
@@ -68,9 +71,8 @@ public:
 };
 
 int main (void) {
-	Tree tree = Tree(); 
-	tree.CreateRoot(1);
-
+	Tree tree = Tree(1); 
+	
 	Node* node2 = tree.CreateNode(2);
 	tree.AppendTree(tree.root, node2, true);
 
