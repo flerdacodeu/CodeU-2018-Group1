@@ -5,7 +5,7 @@
 namespace {
     class PrintAncestorsTest : public ::testing::Test {
         protected:
-            BinaryTree tree;
+            std::unique_ptr<BinaryTree> tree;
 
             virtual void SetUp() {
                 /*
@@ -21,41 +21,37 @@ namespace {
                  *         8  9 10
                  */
                 std::vector<int> elements = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-                tree.createTree(elements);
-            }
-
-            virtual void TearDown() {
-                tree.destroyTree(); 
+                tree = std::unique_ptr<BinaryTree>(new BinaryTree(elements));
             }
     };
 
     TEST_F(PrintAncestorsTest, Root) {
         testing::internal::CaptureStdout();
-        tree.printAncestors(1);
+        tree->printAncestors(1);
         ASSERT_EQ("\n", testing::internal::GetCapturedStdout());
     }
 
     TEST_F(PrintAncestorsTest, SecondLevelNode) {
         testing::internal::CaptureStdout();
-        tree.printAncestors(2);
+        tree->printAncestors(2);
         ASSERT_EQ("1\n", testing::internal::GetCapturedStdout());
     }
 
     TEST_F(PrintAncestorsTest, ThirdLevelNode) {
         testing::internal::CaptureStdout();
-        tree.printAncestors(6);
+        tree->printAncestors(6);
         ASSERT_EQ("3 1\n", testing::internal::GetCapturedStdout());
     }
 
     TEST_F(PrintAncestorsTest, Leaf) {
         testing::internal::CaptureStdout();
-        tree.printAncestors(10);
+        tree->printAncestors(10);
         ASSERT_EQ("5 2 1\n", testing::internal::GetCapturedStdout());
     }
 
     TEST_F(PrintAncestorsTest, InvalidNode) {
         testing::internal::CaptureStdout();
-        tree.printAncestors(11);
+        tree->printAncestors(11);
         ASSERT_EQ("Please enter a valid node!\n", testing::internal::GetCapturedStdout());
     }
 }
