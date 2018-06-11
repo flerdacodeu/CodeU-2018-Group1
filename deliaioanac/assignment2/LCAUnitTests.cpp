@@ -5,7 +5,7 @@
 namespace {
     class LCATest : public ::testing::Test {
         protected:
-            static CustomTree tree;
+            static std::unique_ptr<CustomTree> tree;
 
             static void SetUpTestCase() {
                 /*
@@ -21,47 +21,39 @@ namespace {
                  *         7  8  9
                  */
                 std::vector<int> elements = {1, 1, 2, 2, 2, 4, 4, 6, 3, 3};
-                int start = 1;
-                tree.createTree(elements, start);
-                tree.preprocessingLCA();
+                tree = std::unique_ptr<CustomTree>(new CustomTree(elements));
+                tree->preprocessingLCA();
             }
-
-            static void TearDownTestCase() {
-                tree.destroyTree(); 
-            }
-
-            virtual void SetUp() {}
-            virtual void TearDown() {}
     };
 
-    CustomTree LCATest::tree;
+    std::unique_ptr<CustomTree> LCATest::tree;
 
     TEST_F(LCATest, ChildrenOfSameNode) {
-        ASSERT_EQ(3, tree.getLowestCommonAncestor(10, 11));
+        ASSERT_EQ(3, tree->getLowestCommonAncestor(10, 11));
     }
 
     TEST_F(LCATest, FartherUpLCA) {
-        ASSERT_EQ(2, tree.getLowestCommonAncestor(8, 9));
+        ASSERT_EQ(2, tree->getLowestCommonAncestor(8, 9));
     }
 
     TEST_F(LCATest, DecendantsOfRoot) {
-        ASSERT_EQ(1, tree.getLowestCommonAncestor(5, 11));
+        ASSERT_EQ(1, tree->getLowestCommonAncestor(5, 11));
     }
 
     TEST_F(LCATest, LCAIsOneOfTheNodes) {
-        ASSERT_EQ(2, tree.getLowestCommonAncestor(2, 4));
+        ASSERT_EQ(2, tree->getLowestCommonAncestor(2, 4));
     }
 
     TEST_F(LCATest, SameNode) {
-        ASSERT_EQ(10, tree.getLowestCommonAncestor(10, 10));
+        ASSERT_EQ(10, tree->getLowestCommonAncestor(10, 10));
     }
 
     TEST_F(LCATest, InvalidNode1) {
-        ASSERT_EQ(0, tree.getLowestCommonAncestor(0, 10));
+        ASSERT_EQ(0, tree->getLowestCommonAncestor(0, 10));
     }
 
     TEST_F(LCATest, InvalidNode2) {
-        ASSERT_EQ(0, tree.getLowestCommonAncestor(10, 12));
+        ASSERT_EQ(0, tree->getLowestCommonAncestor(10, 12));
     }
 }
 
