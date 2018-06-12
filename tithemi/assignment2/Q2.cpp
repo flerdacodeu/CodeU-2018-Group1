@@ -12,6 +12,11 @@ struct Node
             : value(value), children(children)
     { }
 
+    ~Node() {
+        for (auto child : children)
+            delete child;
+    }
+
     bool find(const T& target, std::vector<Node<T, N>*>& path)
     {
         if (value == target)
