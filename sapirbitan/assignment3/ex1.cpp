@@ -79,6 +79,7 @@ void Dictionary::addWord(string word) {
 	string* temp_dictionary = new string[num_of_words];
 	for (int i = 0; i < num_of_words-1;i++)
 		temp_dictionary[i] =my_dictionary[i];
+	my_dictionary= new string[num_of_words];
 	temp_dictionary[num_of_words - 1] = word;
 	for (int i = 0; i < num_of_words;i++)
 		my_dictionary[i] = temp_dictionary[i];
@@ -170,38 +171,98 @@ vector<vector<char>> setGrid() {
 	grid.resize(rows);
 	for (int i = 0; i < rows;i++)
 		grid[i].resize(columns);
-	//initializing the greed with input letters
-	cout << "Enter the letters in the grid row by row(" <<rows*columns<<" letters):"<< endl;
+	if (grid.size() == 0 || grid[0].size() == 0) 
+		cout << "your grid is empty !" << endl;
+	else {
+		//initializing the greed with input letters
+		cout << "Enter the letters in the grid row by row(" << rows * columns << " letters):" << endl;
 
-	for (int i = 0; i < rows; i++)
-		for (int j = 0; j < columns;j++) {
-			cin >> grid[i][j];
+		for (int i = 0; i < rows; i++)
+			for (int j = 0; j < columns;j++) {
+				cin >> grid[i][j];
+			}
+		//printing the grid
+		cout << "This is your grid: " << endl;
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < columns;j++) {
+				cout << grid[i][j] << " ";
+			}
+			cout << endl;
 		}
-	//printing the grid
-	cout << "This is your grid: " << endl;
-	for (int i = 0; i < rows; i++) {
-		for (int j = 0; j < columns;j++) {
-			cout << grid[i][j] << " ";
-		}
-		cout << endl;
 	}
 	return grid;
 }
 
-int main() {
-	//creating grid
-	vector<vector<char>> grid =setGrid();
-	//creating dicionary
-	Dictionary dict;
-	
-	//printing Dictionary
-	cout << "This is your dictionary: " << endl;
-	dict.print();
-	
+void tests() {
+	//test 1 -output should be: CAT,CAR,CARD,
+	vector<vector<char>> grid1 = { {'A', 'A','R'},
+					{'T','C','D'} };
+	Dictionary my_dict1(0);
+	my_dict1.addWord("CAT");
+	my_dict1.addWord("CART");
+	my_dict1.addWord("CARD");
+	my_dict1.addWord("CAR");
 	vector<string> words;
-	words = wordsFromGrid(dict, grid);
+	words = wordsFromGrid(my_dict1, grid1);
 	cout << "The words we've found:" << endl;
-	for(int i=0; i<words.size();i++)
-		cout << words[i]<<endl;
+	for (int i = 0; i<words.size();i++)
+		cout << words[i] << endl;
+	//test 2 -output should be: CAR, CARR, CARRR,CAD
+	vector<vector<char>> grid2 = { { 'A', 'A','R','R' },
+					{ 'T','C','D','R' } };
+	Dictionary my_dict2(0);
+	my_dict2.addWord("CAR");
+	my_dict2.addWord("CARR");
+	my_dict2.addWord("CARRR");
+	my_dict2.addWord("CART");
+	my_dict2.addWord("CAD");
+	my_dict2.addWord("CADC");
+	words = wordsFromGrid(my_dict2, grid2);
+	cout << "The words we've found:" << endl;
+	for (int i = 0; i<words.size();i++)
+		cout << words[i] << endl;
+	//test 3 -output should be: HelLo, TaKI,HaT
+	vector<vector<char>> grid3 = { { 'a', 'H','e','l' },
+					{ 'T','K','o','L' },
+					{'s', 'g','I','a'} };
+	Dictionary my_dict3(0);
+	my_dict3.addWord("HelLo");
+	my_dict3.addWord("TaKI");
+	my_dict3.addWord("HAT");
+	my_dict3.addWord("HaT");
+	my_dict3.addWord("soLo");
+	my_dict3.addWord("Halo");
+	words = wordsFromGrid(my_dict3, grid3);
+	cout << "The words we've found:" << endl;
+	for (int i = 0; i<words.size();i++)
+		cout << words[i] << endl;
+}
+
+int main() {
+
+	tests();
+	bool more_tests;
+	cout << "If you want to make tests of your own enter 1 - else - enter 0" << endl;
+	cin >> more_tests;
+	while (more_tests) {
+		//creating grid
+		vector<vector<char>> grid = setGrid();
+		if (grid.size() != 0 && grid[0].size() != 0) {
+			//creating dicionary
+			Dictionary dict;
+
+			//printing Dictionary
+			cout << "This is your dictionary: " << endl;
+			dict.print();
+
+			vector<string> words;
+			words = wordsFromGrid(dict, grid);
+			cout << "The words we've found:" << endl;
+			for (int i = 0; i < words.size();i++)
+				cout << words[i] << endl;
+		}
+		cout << "do you want to make more tests?" << endl;
+		cin >> more_tests;
+	}
 	return 0;
 }
