@@ -24,9 +24,9 @@ struct TrieNode {
 
 class Trie {
     private:
-        std::unique_ptr<TrieNode> root;
+        std::unique_ptr<TrieNode> root_;
 
-        void insertHelper(std::unique_ptr<TrieNode> &root, std::string word, int i) {
+        static void insertHelper(const std::unique_ptr<TrieNode> &root, const std::string &word, int i) {
             // Mark the end of the word, so it can be distinguished from a prefix.
             if (i == word.length()) {
                 root->isEndOfWord = true;
@@ -41,7 +41,7 @@ class Trie {
             insertHelper(root->children[word[i] - 'a'], word, i + 1);
         }
 
-        bool isWordHelper(std::unique_ptr<TrieNode> &root, std::string word, int i) {
+        static bool isWordHelper(const std::unique_ptr<TrieNode> &root, const std::string &word, int i) {
             // If all the letters were used, check if this completes a word.
             if (i == word.length())
                 return root->isEndOfWord;
@@ -56,7 +56,7 @@ class Trie {
             return false;
         }
 
-        bool isPrefixHelper(std::unique_ptr<TrieNode> &root, std::string prefix, int i) {
+        static bool isPrefixHelper(const std::unique_ptr<TrieNode> &root, const std::string &prefix, int i) {
             // If all the letters were parsed in the trie, the prefix exists.
             if (i == prefix.length())
                 return true;
@@ -68,22 +68,23 @@ class Trie {
 
     public:
         Trie() {
-            root = std::unique_ptr<TrieNode>(new TrieNode());
+            root_ = std::unique_ptr<TrieNode>(new TrieNode());
         }
 
         // Inserts a word into the trddie.
-        void insert(std::string word) {
-            insertHelper(root, word, 0);
+        void insert(const std::string &word) {
+            insertHelper(root_, word, 0);
         }
 
         // Returns if the word is in the trie.
-        bool isWord(std::string word) {
-            return isWordHelper(root, word, 0);
+        bool isWord(const std::string &word) {
+            return isWordHelper(root_, word, 0);
         }
 
         // Returns if there is any word in the trie
-        // that starts with the given prefix.
-        bool isPrefix(std::string prefix) {
-                return isPrefixHelper(root, prefix, 0);
+        // that starts with the given prefix or if the
+        // prefix is empty.
+        bool isPrefix(const std::string &prefix) {
+                return isPrefixHelper(root_, prefix, 0);
         }    
 };

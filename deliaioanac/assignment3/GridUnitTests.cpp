@@ -23,7 +23,7 @@ namespace {
             trie->insert(e);
         }
 
-        ASSERT_EQ(grid->wordSearch(trie).size(), 0);
+        EXPECT_EQ(grid->wordSearch(trie).size(), 0);
     }
 
     TEST_F(GridTest, EmptyWord) {
@@ -34,7 +34,7 @@ namespace {
             trie->insert(e);
         }
 
-        ASSERT_EQ(grid->wordSearch(trie).size(), 0);
+        EXPECT_EQ(grid->wordSearch(trie).size(), 0);
     }
 
     TEST_F(GridTest, ValidDict) {
@@ -46,11 +46,11 @@ namespace {
         }
 
         elements = grid->wordSearch(trie);
-        ASSERT_EQ(elements.size(), 3);
+        EXPECT_EQ(elements.size(), 3);
         sort(elements.begin(), elements.end());
-        ASSERT_EQ(elements[0], "car");
-        ASSERT_EQ(elements[1], "card");
-        ASSERT_EQ(elements[2], "cat");
+        EXPECT_EQ(elements[0], "car");
+        EXPECT_EQ(elements[1], "card");
+        EXPECT_EQ(elements[2], "cat");
     }
 
     TEST_F(GridTest, DictWithDuplicates) {
@@ -62,10 +62,10 @@ namespace {
         }
 
         elements = grid->wordSearch(trie);
-        ASSERT_EQ(elements.size(), 2);
+        EXPECT_EQ(elements.size(), 2);
         sort(elements.begin(), elements.end());
-        ASSERT_EQ(elements[0], "card");
-        ASSERT_EQ(elements[1], "cat");
+        EXPECT_EQ(elements[0], "card");
+        EXPECT_EQ(elements[1], "cat");
     }
 
 }

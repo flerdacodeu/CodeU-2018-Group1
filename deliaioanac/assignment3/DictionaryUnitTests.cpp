@@ -18,53 +18,54 @@ namespace {
     };
 
     std::unique_ptr<Trie> DictionaryTest::trie;
+    std::vector<std::string> testWords = {"", "cat", "cart", "ca", "cards", "invalid", "c", "car", "cars"};
 
     TEST_F(DictionaryTest, EmptyWord) {
-        ASSERT_FALSE(trie->isWord(""));
+        EXPECT_FALSE(trie->isWord(testWords[0]));
     }
     
     TEST_F(DictionaryTest, CompleteWord1) {
-        ASSERT_TRUE(trie->isWord("cat"));
+        EXPECT_TRUE(trie->isWord(testWords[1]));
     }
 
     TEST_F(DictionaryTest, CompleteWord2) {
-        ASSERT_TRUE(trie->isWord("cart"));
+        EXPECT_TRUE(trie->isWord(testWords[2]));
     }
 
     TEST_F(DictionaryTest, IncompleteWord) {
-        ASSERT_FALSE(trie->isWord("ca"));
+        EXPECT_FALSE(trie->isWord(testWords[3]));
     }
 
     TEST_F(DictionaryTest, CompleteWordWithSuffix) {
-        ASSERT_FALSE(trie->isWord("cards"));
+        EXPECT_FALSE(trie->isWord(testWords[4]));
     }
 
     TEST_F(DictionaryTest, InvalidWord) {
-        ASSERT_FALSE(trie->isWord("invalid"));
+        EXPECT_FALSE(trie->isWord(testWords[5]));
     }
 
     TEST_F(DictionaryTest, EmptyPrefix) {
-        ASSERT_TRUE(trie->isPrefix(""));
+        EXPECT_TRUE(trie->isPrefix(testWords[0]));
     }
 
     TEST_F(DictionaryTest, ValidPrefix1) {
-        ASSERT_TRUE(trie->isPrefix("c"));
+        EXPECT_TRUE(trie->isPrefix(testWords[6]));
     }
 
     TEST_F(DictionaryTest, ValidPrefix2) {
-        ASSERT_TRUE(trie->isPrefix("ca"));
+        EXPECT_TRUE(trie->isPrefix(testWords[3]));
     }
 
     TEST_F(DictionaryTest, PrefixThatIsWord) {
-        ASSERT_TRUE(trie->isPrefix("car"));
+        EXPECT_TRUE(trie->isPrefix(testWords[7]));
     }
 
     TEST_F(DictionaryTest, InvalidPrefix1) {
-        ASSERT_FALSE(trie->isPrefix("invalid"));
+        EXPECT_FALSE(trie->isPrefix(testWords[5]));
     }
 
     TEST_F(DictionaryTest, InvalidPrefix2) {
-        ASSERT_FALSE(trie->isPrefix("cars"));
+        EXPECT_FALSE(trie->isPrefix(testWords[8]));
     }
 }
 
