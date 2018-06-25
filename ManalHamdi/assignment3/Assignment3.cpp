@@ -1,6 +1,7 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include <set>
 #include <utility>
 #include <vector>
 
@@ -34,64 +35,95 @@ class Dictionary {
 class Grid {
 private: 
 	int number_rows, number_columns;
-	std::vector<std::vector<char>> grid;
 public:
+	std::vector<std::vector<char>> grid;
 	Grid(const std::vector<std::vector<char>> grid) {
 		this->grid = grid;
+		number_rows = grid.size();
+		if (number_rows != 0)
+			number_columns = grid[0].size();
+		else
+			number_columns = 0;
+	}
+	void validateGrid(Grid &grid) {
+		for (int i = 0; i < grid.number_rows; i++) {
+			for (int j = 0; j < grid.number_columns; j++) {
+				grid.grid[i][j] = tolower(grid.grid[i][j]);
+			}
+		}
+	}
+	bool validIndex(int row, int column) {
+		return row >= 0 && row < number_rows && column >= 0 && column < number_columns;
+	}
+	std::vector<std::pair<int,int> > getNeighboorIndices(int current_index_row, int current_index_column) {
+		std::vector<std::pair<int,int>> neighboors_indeces;
+		for (int i = -1; i <= 1; i++) {
+			for (int j = -1; j <= 1; j++) {
+				if (validIndex(current_index_row + i, current_index_column + j)) {
+					neighboors_indeces.push_back(std::make_pair(current_index_row + i, current_index_column + j));
+				}
+			}
+		}
+		return neighboors_indeces;
 	}
 };
-bool validIndex(int row, int column, int grid_number_rows, int grid_number_columns) {
-	return row >= 0 && row < grid_number_rows && column >= 0 && column < grid_number_columns;
-}
-std::vector<pair<int,int> > getNeighboorIndices(int current_index_row, int current_index_column, int grid_number_rows, int grid_number_columns) {
-	std::vector<std::pair<int,int>> neighboors_indeces;
-	for (int i = -1; i <= 1; i++) {
-		for (int j = -1; j <= 1; j++) {
-			if (valid_index(current_row + i, current_column + j, grid_number_rows, grid_number_columns)) {
-				neighboors_indeces.push_back(current_row + i, current_column + j);
-			}
-   		}
-	}
-	return neighboors_indeces;
-}
+
+
 void DFS(Dictionary &dictionary,Grid &grid, std::vector<std::string> &words_found, int current_index_row, int current_index_column, std::string &word, std::vector<std::vector<bool> > &visited) {
 	if(visited[current_index_row][current_index_column]) {
 		return;
 	}
 	visited[current_index_row][current_index_column] = true;
-	word.push_back(grid[current_index_row][current_index_column]);
-	if (!dictionary.isPrefix(word)) {
-		return;
-	}
-	if (dictionary.isWord(word)) {
-		words_found.push_back(word);
-	}
-	std::vector<pair<int,int>> neighboors_indeces = getNeighboorIndices(current_index_row, current_index_column, grid.number_rows, grid.number_columns);
-	for (auto neighboor: neighboors_indeces) {
-		return DFS(dictionary, grid, neighboor.first, neighboor.second);
-	}
-	visited[current_row][current_column] = false;
-	word.pop_back();
-}
-void validateGrid(Grid &grid) {
-	for (int i = 0; i < grid.number_rows; i++) {
-		for (int j = 0; j < grid.number_columns; j++) {
-			grid[i][j] = tolower(grid[i][j]);
+	word.push_back(grid.grid[current_index_row][current_index_column]);
+	if (dictionary.isPrefix(word)) {
++		if (dictionary.isWord(word)) {
+			words_found.push_back(word);
 		}
 	}
+	else {
+		return;
+	}
+	std::vector<std::pair<int,int>> neighboors_indeces = getNeighboorIndices(current_index_row, current_index_column);
+	for (auto neighboor: neighboors_indeces) {
+		return DFS(dictionary, grid, words_found, neighboor.first, neighboor.second, word, visited);
+	}
+	visited[current_index_row][current_index_column] = false;
+	word.pop_back();
 }
+
 //Assumption: the function should be case insensitive because in real world "eat" and "EAT" stand for the same words
 std::vector<std::string> findAllWordsInGrid(Dictionary &dictionary, Grid &grid) {
 	std::vector<std::string> words_grid;
 	std::string word;
-	std::vector<std::vector<bool> > visited(grid.number_rows, vector<bool>(grid.number_columns, false));
+	std::vector<std::vector<bool> > visited(grid.number_rows, std::vector<bool>(grid.number_columns, false));
 	
-	validateGrid(grid);
+	grid.validateGrid(grid);
 	
 	for (int i = 0; i < grid.number_rows; i++) {
 		for (int j = 0; j < grid.number_columns; j++) {
-			DFS(dictionary, grid, words_grid, grid[i][j],i,j, word, visited);
+			DFS(dictionary, grid, words_grid, grid.grid.[i][j],i,j, word, visited);
 		}
 	}
 	return words_grid;
 }
+class Test {
+private: std::vector<std::vector<char>> grid;
+	Dictionary dictionary;
+	Grid grid;
+public:
+	void testEmptyGrid() {
+		grid = new Grid(std::vector<std::vector<char>>());
+		dictionary = new Dictionary(std::set<std::string>{"caa", "notfound", "rdct"});
+		EXPECT_EQ({},findAllWords(dictionary, grid));
+	}
+	void testEmptyDictionary() {
+		grid = new Grid(std::vector<std::vector<char>>({{'a','a','r'},{'t','c','d'}}));
+		dictionary = new Dictionary(std::set<std::string>());
+		EXPECT_EQ({},findAllWords(dictionary, grid));
+	}
+	void testPositive() {
+		grid = new Grid(std::vector<std::vector<char>>({{'a','a','r'},{'t','c','d'}}));
+		dictionary = new Dictionary(std::set<std::string>{"caa", "notfound", "rdct"});
+		EXPECT_EQ({“caa”, “rdct”},findAllWords(dictionary, grid));
+	}
+};
