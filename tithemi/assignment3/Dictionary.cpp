@@ -6,9 +6,9 @@ const Dictionary* Dictionary::findLastNode(const std::string& word) const
 
     for (const char x : word)
     {
-        auto next = node->postfixes.find(x);
+        auto next = node->postfixes_.find(x);
 
-        if (next == node->postfixes.end())
+        if (next == node->postfixes_.end())
             return nullptr;
 
         node = next->second;
@@ -23,7 +23,7 @@ void Dictionary::add(const std::string& word)
 
     for (char x : word)
     {
-        auto& next = node->postfixes[x];
+        auto& next = node->postfixes_[x];
 
         if (next == nullptr)
             next = new Dictionary();
@@ -31,10 +31,10 @@ void Dictionary::add(const std::string& word)
         node = next;
     }
 
-    node->isTerminal = true;
+    node->is_terminal_ = true;
 }
 
-Dictionary::Dictionary(const std::vector<std::string>& words)
+Dictionary::Dictionary(const std::vector<std::string>& words) : is_terminal_(false)
 {
     for (const std::string& word : words)
         add(word);
@@ -42,14 +42,14 @@ Dictionary::Dictionary(const std::vector<std::string>& words)
 
 Dictionary::~Dictionary()
 {
-    for (auto& pair : postfixes)
+    for (auto& pair : postfixes_)
         delete pair.second;
 }
 
 bool Dictionary::isWord(const std::string& word) const
 {
     auto found = findLastNode(word);
-    return found != nullptr && found->isTerminal;
+    return found != nullptr && found->is_terminal_;
 }
 
 bool Dictionary::isPrefix(const std::string& prefix) const

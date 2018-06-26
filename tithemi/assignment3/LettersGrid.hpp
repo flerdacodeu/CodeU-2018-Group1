@@ -8,6 +8,9 @@
 template <size_t Rows, size_t Columns>
 class LettersGrid
 {
+    static_assert(Rows > 0, "Rows count must be a positive number");
+    static_assert(Columns > 0, "Columns count must be a positive number");
+
     const std::array<std::array<char, Columns>, Rows> letters;
 
     void findWords(
@@ -19,7 +22,7 @@ class LettersGrid
     ) const;
 
 public:
-    LettersGrid(const std::array<std::array<char, Columns>, Rows> letters) : letters(letters) {}
+    LettersGrid(const std::array<std::array<char, Columns>, Rows>& letters) : letters(letters) {}
 
     std::set<std::string> findWords(const Dictionary& dictionary) const;
 };

@@ -4,16 +4,16 @@
 
 class Dictionary
 {
-    bool isTerminal = false;
+    bool is_terminal_;
 
-    std::unordered_map<char, Dictionary*> postfixes;
+    std::unordered_map<char, Dictionary*> postfixes_;
 
 
     const Dictionary* findLastNode(const std::string& word) const;
 
     void add(const std::string& word);
 
-    Dictionary() = default;
+    Dictionary() : is_terminal_(false) {}
 
 public:
     Dictionary(const std::vector<std::string>& words);

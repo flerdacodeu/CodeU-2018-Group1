@@ -15,15 +15,11 @@ static const std::vector<std::string> prefixes =
 static const int rows = 2;
 static const int columns = 3;
 
-static const std::array<std::array<char, columns>, rows> letters = { {
+static const std::array<std::array<char, columns>, rows> letters = 
+{ {
     { 'A', 'A', 'R' },
     { 'T', 'C', 'D' }
 } };
-
-TEST(DictionaryIsWorking, Creates)
-{
-    Dictionary dictionary(words);
-}
 
 TEST(DictionaryIsWorking, ContainsWords)
 {
@@ -52,19 +48,32 @@ TEST(DictionaryIsWorking, ContainsPrefixes)
     EXPECT_FALSE(dictionary.isPrefix("A"));
 }
 
-TEST(LettersGridIsWorking, Creates)
-{
-    LettersGrid<2, 3> grid(letters);
-}
-
-TEST(LettersGridIsWorking, Works)
+TEST(LettersGridIsWorking, ValidWordsAreFound)
 {
     std::set<std::string> expected = { "CAR", "CARD", "CAT" };
 
     LettersGrid<2, 3> grid(letters);
-    Dictionary dictionary(words);
-
     auto actual = grid.findWords(words);
+
+    EXPECT_EQ(expected, actual);
+}
+
+TEST(LettersGridIsWorking, InvalidWordsAreNotFound)
+{
+    std::set<std::string> expected = { };
+
+    LettersGrid<5, 1> grid({});
+    auto actual = grid.findWords(words);
+
+    EXPECT_EQ(expected, actual);
+}
+
+TEST(LettersGridIsWorking, EmptyDictionary)
+{
+    std::set<std::string> expected = {};
+
+    LettersGrid<2, 3> grid(letters);
+    auto actual = grid.findWords({ std::vector<std::string>() });
 
     EXPECT_EQ(expected, actual);
 }
