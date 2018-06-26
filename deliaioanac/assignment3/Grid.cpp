@@ -19,7 +19,8 @@ class Grid {
         }
 
         void backtrack(const std::unique_ptr<Trie> &dict, std::unordered_set<std::string> &solution,
-                std::vector<std::vector<bool> > &visited, int i, int j, std::string &word) {
+                std::vector<std::vector<bool> > &visited, int i, int j, std::string &word,
+                const TrieNode* node) {
             // Add current letter of the grid to the word and mark it as already visited,
             // so it won't be used twice in the same word.
             word.push_back(grid_[i][j]);
@@ -27,7 +28,7 @@ class Grid {
 
             // If the current succession of letters in not a prefix,
             // it can't be a word, so return.
-            if (!dict->isPrefix(word)) {
+            if (!node->children[word.back() - 'a']) {
                 visited[i][j] = false;
                 word.pop_back();
                 return;
@@ -42,7 +43,7 @@ class Grid {
             // extended by other words.
             for (int k = 0; k < NUMBER_OF_DIRECTIONS; k ++) {
                 if (isInBounds(i + iDiff_[k], j + jDiff_[k]) && !visited[i + iDiff_[k]][j + jDiff_[k]]) {
-                    backtrack(dict, solution, visited, i + iDiff_[k], j + jDiff_[k], word);
+                    backtrack(dict, solution, visited, i + iDiff_[k], j + jDiff_[k], word, node->children[word.back() - 'a'].get());
                 }
             }
 
@@ -74,7 +75,7 @@ class Grid {
             // Use an unordered_set for storing, to avoid duplicates.
             for (int i = 0; i < grid_.size(); i ++) {
                 for (int j = 0; j < grid_[i].size(); j ++) {
-                    backtrack(dict, solution, visited, i, j, word);
+                    backtrack(dict, solution, visited, i, j, word, dict->isPrefix(word));
                 }
             }
 

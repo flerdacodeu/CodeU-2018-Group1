@@ -45,27 +45,31 @@ namespace {
     }
 
     TEST_F(DictionaryTest, EmptyPrefix) {
-        EXPECT_TRUE(trie->isPrefix(testWords[0]));
+        EXPECT_NE(trie->isPrefix(testWords[0]), nullptr);
+        EXPECT_EQ(trie->isPrefix(testWords[0])->value, ' ');
     }
 
     TEST_F(DictionaryTest, ValidPrefix1) {
-        EXPECT_TRUE(trie->isPrefix(testWords[6]));
+        EXPECT_NE(trie->isPrefix(testWords[6]), nullptr);
+        EXPECT_EQ(trie->isPrefix(testWords[6])->value, 'c');
     }
 
     TEST_F(DictionaryTest, ValidPrefix2) {
-        EXPECT_TRUE(trie->isPrefix(testWords[3]));
+        EXPECT_NE(trie->isPrefix(testWords[3]), nullptr);
+        EXPECT_EQ(trie->isPrefix(testWords[3])->value, 'a');
     }
 
     TEST_F(DictionaryTest, PrefixThatIsWord) {
-        EXPECT_TRUE(trie->isPrefix(testWords[7]));
+        EXPECT_NE(trie->isPrefix(testWords[7]), nullptr);
+        EXPECT_EQ(trie->isPrefix(testWords[7])->value, 'r');
     }
 
     TEST_F(DictionaryTest, InvalidPrefix1) {
-        EXPECT_FALSE(trie->isPrefix(testWords[5]));
+        EXPECT_EQ(trie->isPrefix(testWords[5]), nullptr);
     }
 
     TEST_F(DictionaryTest, InvalidPrefix2) {
-        EXPECT_FALSE(trie->isPrefix(testWords[8]));
+        EXPECT_EQ(trie->isPrefix(testWords[8]), nullptr);
     }
 }
 
