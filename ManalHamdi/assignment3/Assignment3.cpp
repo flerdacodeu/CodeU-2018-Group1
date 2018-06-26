@@ -1,5 +1,6 @@
 #include <iostream>
 #include <map>
+#include "gtest/gtest.h"
 #include <string>
 #include <set>
 #include <utility>
@@ -45,6 +46,12 @@ public:
 		else
 			number_columns = 0;
 	}
+	int getNumberRows() {
+		return number_rows;
+	}
+	int getNumberColumns() {
+		return number_columns;
+	}
 	void validateGrid(Grid &grid) {
 		for (int i = 0; i < grid.number_rows; i++) {
 			for (int j = 0; j < grid.number_columns; j++) {
@@ -83,7 +90,7 @@ void DFS(Dictionary &dictionary,Grid &grid, std::vector<std::string> &words_foun
 	else {
 		return;
 	}
-	std::vector<std::pair<int,int>> neighboors_indeces = getNeighboorIndices(current_index_row, current_index_column);
+	std::vector<std::pair<int,int>> neighboors_indeces = grid.getNeighboorIndices(current_index_row, current_index_column);
 	for (auto neighboor: neighboors_indeces) {
 		return DFS(dictionary, grid, words_found, neighboor.first, neighboor.second, word, visited);
 	}
@@ -95,35 +102,39 @@ void DFS(Dictionary &dictionary,Grid &grid, std::vector<std::string> &words_foun
 std::vector<std::string> findAllWordsInGrid(Dictionary &dictionary, Grid &grid) {
 	std::vector<std::string> words_grid;
 	std::string word;
-	std::vector<std::vector<bool> > visited(grid.number_rows, std::vector<bool>(grid.number_columns, false));
+	std::vector<std::vector<bool> > visited(grid.getNumberRows(), std::vector<bool>(grid.getNumberColumns(), false));
 	
 	grid.validateGrid(grid);
 	
-	for (int i = 0; i < grid.number_rows; i++) {
-		for (int j = 0; j < grid.number_columns; j++) {
-			DFS(dictionary, grid, words_grid, grid.grid.[i][j],i,j, word, visited);
+	for (int i = 0; i < grid.getNumberRows(); i++) {
+		for (int j = 0; j < grid.getNumberColumns(); j++) {
+			DFS(dictionary, grid, words_grid,i,j, word, visited);
 		}
 	}
 	return words_grid;
 }
 class Test {
-private: std::vector<std::vector<char>> grid;
-	Dictionary dictionary;
-	Grid grid;
 public:
 	void testEmptyGrid() {
-		grid = new Grid(std::vector<std::vector<char>>());
-		dictionary = new Dictionary(std::set<std::string>{"caa", "notfound", "rdct"});
+		Grid grid((std::vector<std::vector<char>>()));
+		Dictionary dictionary((std::set<std::string>("caa", "notfound", "rdct")));
 		EXPECT_EQ({},findAllWords(dictionary, grid));
 	}
 	void testEmptyDictionary() {
-		grid = new Grid(std::vector<std::vector<char>>({{'a','a','r'},{'t','c','d'}}));
-		dictionary = new Dictionary(std::set<std::string>());
+		Grid grid((std::vector<std::vector<char>>({{'a','a','r'},{'t','c','d'}})));
+		Dictionary dictionary((std::set<std::string>()));
 		EXPECT_EQ({},findAllWords(dictionary, grid));
 	}
 	void testPositive() {
-		grid = new Grid(std::vector<std::vector<char>>({{'a','a','r'},{'t','c','d'}}));
-		dictionary = new Dictionary(std::set<std::string>{"caa", "notfound", "rdct"});
+		Grid grid((std::vector<std::vector<char>>({{'a','a','r'},{'t','c','d'}})));
+		Dictionary dictionary((std::set<std::string>("caa", "notfound", "rdct")));
 		EXPECT_EQ({“caa”, “rdct”},findAllWords(dictionary, grid));
 	}
 };
+int main (void) {
+	Test test = new Test();
+	test.testEmptyGrid();
+	test.testEmptyDictionary();
+	test.testPositive();
+	return 0;
+}
