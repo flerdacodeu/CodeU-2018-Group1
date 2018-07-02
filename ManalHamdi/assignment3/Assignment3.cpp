@@ -74,8 +74,6 @@ public:
 		return neighboors_indeces;
 	}
 };
-
-
 void DFS(Dictionary &dictionary,Grid &grid, std::vector<std::string> &words_found, int current_index_row, int current_index_column, std::string &word, std::vector<std::vector<bool> > &visited) {
 	if(visited[current_index_row][current_index_column]) {
 		return;
@@ -132,7 +130,7 @@ public:
 	}
 };
 int main (void) {
-	Test test = new Test();
+	Test test;
 	test.testEmptyGrid();
 	test.testEmptyDictionary();
 	test.testPositive();
