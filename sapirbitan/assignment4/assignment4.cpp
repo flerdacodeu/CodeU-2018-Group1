@@ -75,17 +75,17 @@ int findLand(int num_of_rows, int num_of_columns, vector<vector<bool>> map) {
 void tests() {
 	//test 1
 	vector<vector<bool>> map1 = { { false,true,false,true },
-								{ true,true,false,false },
-								{ false, false,true,false },
-								{ false, false,true,false } };
+					{ true,true,false,false },
+					{ false, false,true,false },
+				     	{ false, false,true,false } };
 	if (findLand(map1.size(), map1[0].size(), map1)!=3)
 		cout<<"wrong output!"<<endl;
 	//test 2
 	vector<vector<bool>> map2 = { { true, false,true,false,true },
-								{ true,false,false,true,false},
-								{ false,true, true, false,true},
-								{true, true, false, false,true},
-								{true, true, false, true,false} };
+					{ true,false,false,true,false},
+					{ false,true, true, false,true},
+				     	{true, true, false, false,true},
+					{true, true, false, true,false} };
 	if (findLand(map2.size(), map2[0].size(), map2) != 7)
 		cout << "wrong output!"<<endl;
 	//test 3
@@ -93,6 +93,17 @@ void tests() {
 								{false}};
 	if (findLand(map3.size(), map3[0].size(), map3) != 1)
 		cout << "wrong output!"<<endl;
+	//test 4
+	vector<vector<bool>> map4 = { { true, true,true,true,true },
+					{ true,true,true,true,true } };
+	if (findLand(map4.size(), map4[0].size(), map4) != 1)
+		cout << "wrong output!" << endl;
+	//test 5
+	vector<vector<bool>> map5 = { { false,false,false,false },
+					{ false,false,false,false },
+					{ false, false,false,false } };
+	if (findLand(map5.size(), map5[0].size(), map5) != 0)
+		cout << "wrong output!" << endl;
 }
 int main() {
 
