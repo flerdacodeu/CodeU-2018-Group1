@@ -2,32 +2,31 @@
 #include<cstdlib>
 #include<iostream>
 
-using namespace std;
+using std::cout;
+using std::string;
 
-bool is_anagrams(string s1, string s2) {
-	int num_of_letters1[26] = {0}, num_of_letters2[26] = {0};//we think, that in anagrams are important only letters
-	int len1 = s1.size();
-	int len2 = s2.size();
-	for (int i = 0; i < len1; i++) {
-		if (s1[i] >= 'a' && s1[i] <= 'z') {
-			num_of_letters1[s1[i] - 'a']++;
-		} 
-		else 
-			if (s1[i] >= 'A' && s1[i] <= 'Z') {
-				num_of_letters1[s1[i] - 'A']++;
-			}
+const int alphabetSize = 26;
+
+int charToIndex(char ch) {
+    if (ch >= 'a' && ch <= 'z')
+        return ch - 'a';
+    return ch - 'A';
+}
+
+bool is_anagram(const string& s1, const string& s2) {
+        int num_of_letters1[alphabetSize] = {0}, num_of_letters2[alphabetSize] = {0};//we think, that in anagrams are important only letters
+        for (char c : s1) {
+            if (std::isalpha(c)) {
+                num_of_letters1[charToIndex(c)]++;
+            }
+        }
+        for (char c : s2) {
+            if (std::isalpha(c)) {
+                num_of_letters2[charToIndex(c)]++;
+            }
 	}
-	for (int i = 0; i < len2; i++) {
-		if (s2[i] >= 'a' && s2[i] <= 'z') {
-			num_of_letters2[s2[i] - 'a']++;
-		}
-		else
-			if (s2[i] >= 'A' && s2[i] <= 'Z') {
-				num_of_letters2[s2[i] - 'A']++;
-			}
-	}
-	for (int i = 0; i < 26; i++) {
-		if (num_of_letters1[i] != num_of_letters2[i]) {
+        for (int i = 0; i < alphabetSize; i++) {
+                if (num_of_letters1[i] != num_of_letters2[i]) {
 			return false;
 		}
 	}
@@ -35,17 +34,17 @@ bool is_anagrams(string s1, string s2) {
 }
 
 int main () {
-	if (is_anagrams("Apple", "apple"))
-		cout << "Test 1 done\n";
+        if (is_anagram("Apple", "apple"))
+                cout << "Test 1 done\n";
 	else
 		cout << "Test 1 failed\n";
-	if (is_anagrams("Good morning", "ornngim odog"))
-		cout << "Test 2 done\n";
+        if (is_anagram("Good morning", "ornngim odog"))
+                cout << "Test 2 done\n";
 	else
 		cout << "Test 2 failed\n";
-	if (!is_anagrams("Ana", "Anna"))
-		cout << "Test 3 done\n";
+        if (!is_anagram("Ana", "Anna"))
+                cout << "Test 3 done\n";
 	else
-		cout << "Test 3 failed\n";	
+                cout << "Test 3 failed\n";
 	return 0;
 }
