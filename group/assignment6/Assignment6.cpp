@@ -161,7 +161,7 @@ getMoveSequence(std::vector<int> &starting_state, std::vector<int> &ending_state
 	printPath(move_sequence);
 }
 
-int main()
+int inside_test()
 {
 	//  simple test
 	int parking_size = 4;
