@@ -88,14 +88,16 @@ public:
       }
       else {
         car_to_move = end_state[current_empty_slot];
-        assert(cars_in_wrong_place.count(car_to_move));
+        if (prohibited_cars[current_empty_slot].count(car_to_move)) {
+          return {};
+        }
         cars_in_wrong_place.erase(car_to_move);
       }
       
       // Record move.
       move_sequence.push_back(
           Move(car_to_move, index_of_car[car_to_move], current_empty_slot));
-   
+      
       std::swap(index_of_car[car_to_move], current_empty_slot);
       
       // The car that has been moved recently should not be considered safe to
