@@ -92,6 +92,18 @@ bool unit_test_easy_move() {
 	return true;
 }
 
+bool unit_test_mix() {
+	vector<int> start_seq 	= { 4, 1, 2, 3,  7, -1, 5, 6, -1,  8};
+	vector<int> end_seq 	= { 1, 2, 3, 4,  5,  6, 7, 8, -1, -1};
+	vector<AMove> res = CarRearrangement(start_seq, end_seq).getMoves();
+	if (!check_correctness(start_seq, end_seq, res)) 
+		return false;
+	if (res.size() != 10) {
+		cerr << "Solution is correct, but number of actions isn't optimal\n";
+	}
+	return true;
+}
+
 void output_seq(vector<int> a) {
 	for (int i = 0; i < a.size(); i++)
 		cerr << a[i] << " ";
