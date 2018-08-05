@@ -14,6 +14,18 @@ struct Move {
   }
 };
 
+struct Solution {
+  bool has_solution;
+  std::vector<Move> moves;
+  
+  Solution(bool has_solution, std::vector<Move> moves) {
+    this->has_solution = has_solution;
+    this->moves = moves;
+  }
+};
+
+const Solution kNoSolution = Solution(false, {});
+
 class ParkingLot {
 private:
   const int kEmptySpotValue = -1;
@@ -71,7 +83,11 @@ public:
     this->prohibited_cars = prohibited_cars;
   }
 
-  std::vector<Move> GetMoveSequence() {
+  Solution GetMoveSequence() {
+    if (start_state.size() != end_state.size()) {
+      return kNoSolution;
+    }
+
     auto cars_in_wrong_place = GetCarsInWrongPlace();
     auto cars_safe_to_move = GetCarsSafeToMove();
     auto index_of_car = MapCarsToIndices();
@@ -82,14 +98,14 @@ public:
       int car_to_move;
       if (end_state[current_empty_slot] == -1) {
         if (cars_safe_to_move.empty()) {
-          return {};
+          return kNoSolution;
         }
         car_to_move = *cars_safe_to_move.begin();
       }
       else {
         car_to_move = end_state[current_empty_slot];
         if (prohibited_cars[current_empty_slot].count(car_to_move)) {
-          return {};
+          return kNoSolution;
         }
         cars_in_wrong_place.erase(car_to_move);
       }
@@ -107,7 +123,7 @@ public:
       }
     }
     
-    return move_sequence;
+    return Solution(true, move_sequence);
   }
 };
 
@@ -129,7 +145,7 @@ int main() {
   auto move_sequence =
       ParkingLot(starting_state, ending_state, prohibited).GetMoveSequence();
   
-  printPath(move_sequence);
+  printPath(move_sequence.moves);
   
   return 0;
 }
