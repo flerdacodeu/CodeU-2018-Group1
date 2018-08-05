@@ -127,7 +127,7 @@ int main() {
   std::vector<int> ending_state = {3, 1, 2, -1};
   
   auto move_sequence =
-  ParkingLot(starting_state, ending_state, prohibited).GetMoveSequence();
+      ParkingLot(starting_state, ending_state, prohibited).GetMoveSequence();
   
   printPath(move_sequence);
   
