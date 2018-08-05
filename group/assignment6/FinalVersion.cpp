@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 #include <unordered_map>
 #include <unordered_set>
@@ -5,7 +6,7 @@
 
 struct Move {
   int car, source, destination;
-  
+
   Move(int car, int source, int destination) {
     this->car = car;
     this->source = source;
@@ -16,10 +17,11 @@ struct Move {
 class ParkingLot {
 private:
   const int kEmptySpotValue = -1;
-  
+
   std::vector<int> start_state, end_state;
   std::vector<std::unordered_set<int>> prohibited_cars;
-  
+  bool can_rearrange = true;
+
   std::unordered_map<int, int> MapCarsToIndices() {
     std::unordered_map<int, int> index_of_car;
     for (int i = 0; i < start_state.size(); i++) {
@@ -29,16 +31,16 @@ private:
     }
     return index_of_car;
   }
-  
+
   int FindEmptySlotIndex(const std::vector<int> &parking) {
     auto it = std::find(begin(parking), end(parking), kEmptySpotValue);
     return static_cast<int>(std::distance(begin(parking), it));
   }
-  
+
   bool isEmptySlot(int car) {
     return car == kEmptySpotValue;
   }
-  
+
   std::unordered_set<int> GetCarsInWrongPlace() {
     std::unordered_set<int> cars_in_wrong_place;
     for (int i = 0; i < start_state.size(); i++) {
@@ -48,7 +50,7 @@ private:
     }
     return cars_in_wrong_place;
   }
-  
+
   std::unordered_set<int> GetCarsSafeToMove() {
     const std::unordered_set<int> prohibited_cars =
         this->prohibited_cars[FindEmptySlotIndex(end_state)];
@@ -60,7 +62,7 @@ private:
     }
     return cars_safe_to_move;
   }
-  
+
 public:
   ParkingLot (std::vector<int> start_state,
               std::vector<int> end_state,
@@ -69,17 +71,13 @@ public:
     this->end_state = end_state;
     this->prohibited_cars = prohibited_cars;
   }
-  
-  std::vector<Move> getMoveSequence() {
-    if (start_state.size() != end_state.size()) {
-      return {};
-    }
-    
+
+  std::vector<Move> GetMoveSequence() {
     auto cars_in_wrong_place = GetCarsInWrongPlace();
     auto cars_safe_to_move = GetCarsSafeToMove();
     auto index_of_car = MapCarsToIndices();
     int current_empty_slot = FindEmptySlotIndex(start_state);
-    
+
     std::vector<Move> move_sequence;
     while (!cars_in_wrong_place.empty()) {
       int car_to_move;
@@ -106,7 +104,7 @@ public:
         cars_safe_to_move.erase(car_to_move);
       }
     }
-    
+
     return move_sequence;
   }
 };
@@ -127,7 +125,7 @@ int main() {
   std::vector<int> ending_state = {3, 1, 2, -1};
   
   auto move_sequence =
-  ParkingLot(starting_state, ending_state, prohibited).getMoveSequence();
+      ParkingLot(starting_state, ending_state, prohibited).GetMoveSequence();
   
   printPath(move_sequence);
   
