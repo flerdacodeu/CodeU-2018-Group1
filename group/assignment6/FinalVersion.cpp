@@ -6,7 +6,7 @@
 
 struct Move {
   int car, source, destination;
-
+  
   Move(int car, int source, int destination) {
     this->car = car;
     this->source = source;
@@ -20,8 +20,7 @@ private:
 
   std::vector<int> start_state, end_state;
   std::vector<std::unordered_set<int>> prohibited_cars;
-  bool can_rearrange = true;
-
+  
   std::unordered_map<int, int> MapCarsToIndices() {
     std::unordered_map<int, int> index_of_car;
     for (int i = 0; i < start_state.size(); i++) {
@@ -89,13 +88,14 @@ public:
       }
       else {
         car_to_move = end_state[current_empty_slot];
+        assert(cars_in_wrong_place.count(car_to_move));
         cars_in_wrong_place.erase(car_to_move);
       }
       
       // Record move.
       move_sequence.push_back(
           Move(car_to_move, index_of_car[car_to_move], current_empty_slot));
-      
+   
       std::swap(index_of_car[car_to_move], current_empty_slot);
       
       // The car that has been moved recently should not be considered safe to
@@ -104,7 +104,7 @@ public:
         cars_safe_to_move.erase(car_to_move);
       }
     }
-
+    
     return move_sequence;
   }
 };
@@ -112,7 +112,7 @@ public:
 void printPath(const std::vector<Move> &move_sequence) {
   for (auto move: move_sequence) {
     std::cout << "Car " << move.car << " has been moved from "
-    << move.source << " to " << move.destination << std::endl;
+        << move.source << " to " << move.destination << std::endl;
   }
 }
 
@@ -120,12 +120,12 @@ int main() {
   //  simple test
   int parking_size = 4;
   std::vector<std::unordered_set<int>> prohibited =
-  std::vector<std::unordered_set<int>>(parking_size - 1);
+      std::vector<std::unordered_set<int>>(parking_size);
   std::vector<int> starting_state = {1, 2, -1, 3};
   std::vector<int> ending_state = {3, 1, 2, -1};
   
   auto move_sequence =
-      ParkingLot(starting_state, ending_state, prohibited).GetMoveSequence();
+  ParkingLot(starting_state, ending_state, prohibited).GetMoveSequence();
   
   printPath(move_sequence);
   
