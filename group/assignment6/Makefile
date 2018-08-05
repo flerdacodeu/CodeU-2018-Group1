@@ -1,5 +1,6 @@
 all: main
-
+	./main 
+	
 main: main.o Assignment6.h Assignment6_test.h Assignment6.o Assignment6_test.o
 	g++ main.o Assignment6.o Assignment6_test.o -o main
 
@@ -13,6 +14,6 @@ Assignment6_test.o: Assignment6_test.cpp Assignment6_test.h
 	g++ -c Assignment6_test.cpp -o Assignment6_test.o
 
 clean: 
-	rm *.o
+	rm *.o main
 
 
