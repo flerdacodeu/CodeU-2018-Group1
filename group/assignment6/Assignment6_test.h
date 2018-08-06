@@ -14,3 +14,4 @@ bool unit_test_easy_move();
 
 bool random_tests();
 
+bool unit_test_mix();

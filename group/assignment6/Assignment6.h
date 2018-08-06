@@ -2,35 +2,44 @@
 #include <cstdlib>
 #include <iostream>
 #include <vector>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
 
 using std::vector;
 
 /*
  * Class for one iterate of moving
  **/
-class AMove {
-	private:
-		int start_car_state, end_car_state, number_of_car;
-	public:
-		AMove(int start_car_state, int end_car_state, int number_of_car);
-		
-		void write(); 
-
-		//get methods
-		int get_start_car_state();
-
-		int get_end_car_state();
-
-		int get_number_of_car();
+struct Move {
+	int car, source, destination;
+	Move(int car, int source, int destination);
 };
 
-class CarRearrangement {
-	private:
-		vector<int> start_state, end_state;
-		// Other convenient methods here (e.g: findEmptySlot)
-
-	public:
-		// Constructor, and method for getting the answer here.
-		CarRearrangement(vector<int> start_state, vector<int> end_state);
-		vector<AMove> getMoves();
+struct Solution {
+  bool has_solution;
+  std::vector<Move> moves;
+  
+  Solution(bool has_solution, std::vector<Move> moves);
 };
+
+
+class ParkingLot {
+private:
+  const int kEmptySpotValue = -1;
+  std::vector<int> start_state, end_state;
+  std::vector<std::unordered_set<int>> prohibited_cars;
+  std::unordered_map<int, int> MapCarsToIndices();
+  int FindEmptySlotIndex(const std::vector<int> &parking);
+  bool isEmptySlot(int car);
+  std::unordered_set<int> GetCarsInWrongPlace();
+  std::unordered_set<int> GetCarsSafeToMove();
+
+public:
+  ParkingLot (std::vector<int> start_state,
+              std::vector<int> end_state,
+              std::vector<std::unordered_set<int>> prohibited_cars);
+
+  Solution GetMoveSequence();
+};
+

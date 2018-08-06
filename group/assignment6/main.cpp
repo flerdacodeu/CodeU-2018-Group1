@@ -18,6 +18,10 @@ int main () {
 		cerr << "unit_test_easy_move is incorrect\n\n";
 		correct_unit_tests = false;
 	}
+	if (!unit_test_mix()) {
+		cerr << "unit_test_mix() is incorrect\n\n";
+		correct_unit_tests = false;
+	}
 	if (correct_unit_tests) {
 		if (!random_tests()) 
 			cerr << "some of random tests are incorrect\n";
